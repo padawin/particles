@@ -143,6 +143,15 @@
 		updateAndDrawCanons();
 	}
 
+	canvas.onclick = function (event) {
+		var rect = canvas.getBoundingClientRect(),
+			root = document.documentElement,
+			mouseX = event.clientX - rect.left - root.scrollLeft,
+			mouseY = event.clientY - rect.top - root.scrollTop;
+
+		canons.push(new ParticleCanon({x:mouseX, y: mouseY}, Math.PI / 3));
+	};
+
 	pm = new ParticlesManager(PARTICLES_NUMBER);
 	mainLoop();
 })();
