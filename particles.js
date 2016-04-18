@@ -175,6 +175,18 @@
 		canons.push(new ParticleCanon({x:mouseX, y: mouseY}, Math.PI / 3));
 	};
 
+	document.getElementById('fire-canons').onclick = function () {
+		for(var c in canons) {
+			canons[c].setFire(true);
+		}
+	};
+
+	document.getElementById('stop-fire-canons').onclick = function () {
+		for(var c in canons) {
+			canons[c].setFire(false);
+		}
+	};
+
 	pm = new ParticlesManager(PARTICLES_NUMBER);
 	mainLoop();
 })();
