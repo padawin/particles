@@ -24,6 +24,10 @@
 	}
 
 	Particle.prototype.update = function () {
+		if (this.state == PARTICLE_STATES.DEAD) {
+			return;
+		}
+
 		this.life--;
 
 		if (this.life == 0 || !coordinatesInCanvas(this.position)) {
