@@ -2,6 +2,13 @@
 	var canvas = document.getElementById('myCanvas'),
 		canvasContext = canvas.getContext('2d');
 
+	function coordinatesInCanvas (coordinates) {
+		return coordinates.x + PARTICLE_RADIUS > 0 &&
+			coordinates.x - PARTICLE_RADIUS < canvas.width &&
+			coordinates.y + PARTICLE_RADIUS > 0 &&
+			coordinates.y - PARTICLE_RADIUS < canvas.height;
+	}
+
 	const PARTICLE_STATES = {
 		DEAD: 0,
 		ALIVE: 1
@@ -19,7 +26,7 @@
 	Particle.prototype.update = function () {
 		this.life--;
 
-		if (this.life == 0) {
+		if (this.life == 0 || !coordinatesInCanvas(this.position)) {
 			this.state = PARTICLE_STATES.DEAD;
 		}
 
