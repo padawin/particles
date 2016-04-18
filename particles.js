@@ -59,13 +59,13 @@
 		this.nbParticles = 0;
 	}
 
-	ParticlesManager.prototype.addParticle = function () {
+	ParticlesManager.prototype.addParticle = function (position, speed) {
 		if (this.nbParticles == this.maxSize) {
 			return;
 		}
 
 		this.particlesCollection[this.nbParticles] = new Particle(
-			{x: 150, y: 300}, {x: 1.5, y: 3}
+			position, speed
 		);
 		this.nbParticles++;
 	};
