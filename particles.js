@@ -49,11 +49,19 @@
 	};
 
 	Particle.prototype.draw = function () {
-		var opacity = this.life / this.maxLife;
-		canvasContext.fillStyle = 'rgba(' + this.color.join(', ') + ', ' + opacity + ')';
-		canvasContext.beginPath();
-		canvasContext.arc(this.position.x, this.position.y, PARTICLE_RADIUS, 0, 2 * Math.PI, true);
-		canvasContext.fill();
+		var particleLife = this.life / this.maxLife,
+			spriteIndex;
+		if (particleLife >= 0.5) spriteIndex = 0;
+		else if (particleLife >= 0.5) spriteIndex = 1;
+		else if (particleLife >= 0.25) spriteIndex = 2;
+		else if (particleLife >= 0.125) spriteIndex = 3;
+		else spriteIndex = 4;
+		canvasContext.drawImage(spriteBoard,
+			spriteIndex * 10, 0,
+			10, 10,
+			this.position.x - 5, this.position.y - 5,
+			10, 10
+		);
 	};
 
 	function ParticlesManager (size) {
