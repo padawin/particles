@@ -40,7 +40,7 @@
 
 		this.life--;
 
-		if (this.life == 0 || !coordinatesInCanvas(this.position)) {
+		if (this.life <= 0 || !coordinatesInCanvas(this.position)) {
 			this.state = PARTICLE_STATES.DEAD;
 		}
 
