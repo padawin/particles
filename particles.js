@@ -2,7 +2,9 @@
 	var canvas = document.getElementById('myCanvas'),
 		canvasContext = canvas.getContext('2d'),
 		pm,
-		canons = [];
+		canons = [],
+		spriteBoard,
+		spriteBoardUrl = 'sprite.png';
 
 	function coordinatesInCanvas (coordinates) {
 		return coordinates.x + PARTICLE_RADIUS > 0 &&
@@ -123,9 +125,12 @@
 		canvasContext.save();
 		canvasContext.translate(this.position.x, this.position.y);
 		canvasContext.rotate(-this.angle);
-		canvasContext.fillStyle = 'red';
-		canvasContext.fillRect(-15, -12, 30, 24);
-		canvasContext.fillRect(15, -9, 25, 18);
+		canvasContext.drawImage(spriteBoard,
+			0, 10,
+			55, 24,
+			-15, -12,
+			55, 24
+		);
 		canvasContext.restore();
 	};
 
@@ -176,6 +181,14 @@
 		updateAndDrawCanons();
 	}
 
+	function loadResources (callback) {
+		spriteBoard = new Image();
+		spriteBoard.onload = function () {
+			callback();
+		};
+		spriteBoard.src = spriteBoardUrl;
+	}
+
 	canvas.onclick = function (event) {
 		var rect = canvas.getBoundingClientRect(),
 			root = document.documentElement,
@@ -201,7 +214,7 @@
 	};
 
 	pm = new ParticlesManager(PARTICLES_NUMBER);
-	mainLoop();
+	loadResources(mainLoop);
 
 	window.addEventListener('resize', resizeCanvas, false);
 
