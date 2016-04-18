@@ -2,7 +2,9 @@
 	var canvas = document.getElementById('myCanvas'),
 		canvasContext = canvas.getContext('2d'),
 		pm,
-		canons = [];
+		canons = [],
+		spriteBoard,
+		spriteBoardUrl = 'sprite.png';
 
 	function coordinatesInCanvas (coordinates) {
 		return coordinates.x + PARTICLE_RADIUS > 0 &&
@@ -38,7 +40,7 @@
 
 		this.life--;
 
-		if (this.life == 0 || !coordinatesInCanvas(this.position)) {
+		if (this.life <= 0 || !coordinatesInCanvas(this.position)) {
 			this.state = PARTICLE_STATES.DEAD;
 		}
 
@@ -47,11 +49,19 @@
 	};
 
 	Particle.prototype.draw = function () {
-		var opacity = this.life / this.maxLife;
-		canvasContext.fillStyle = 'rgba(' + this.color.join(', ') + ', ' + opacity + ')';
-		canvasContext.beginPath();
-		canvasContext.arc(this.position.x, this.position.y, PARTICLE_RADIUS, 0, 2 * Math.PI, true);
-		canvasContext.fill();
+		var particleLife = this.life / this.maxLife,
+			spriteIndex;
+		if (particleLife >= 0.5) spriteIndex = 0;
+		else if (particleLife >= 0.5) spriteIndex = 1;
+		else if (particleLife >= 0.25) spriteIndex = 2;
+		else if (particleLife >= 0.125) spriteIndex = 3;
+		else spriteIndex = 4;
+		canvasContext.drawImage(spriteBoard,
+			spriteIndex * 10, 0,
+			10, 10,
+			this.position.x - 5, this.position.y - 5,
+			10, 10
+		);
 	};
 
 	function ParticlesManager (size) {
@@ -123,9 +133,12 @@
 		canvasContext.save();
 		canvasContext.translate(this.position.x, this.position.y);
 		canvasContext.rotate(-this.angle);
-		canvasContext.fillStyle = 'red';
-		canvasContext.fillRect(-15, -12, 30, 24);
-		canvasContext.fillRect(15, -9, 25, 18);
+		canvasContext.drawImage(spriteBoard,
+			0, 10,
+			55, 24,
+			-15, -12,
+			55, 24
+		);
 		canvasContext.restore();
 	};
 
@@ -176,6 +189,14 @@
 		updateAndDrawCanons();
 	}
 
+	function loadResources (callback) {
+		spriteBoard = new Image();
+		spriteBoard.onload = function () {
+			callback();
+		};
+		spriteBoard.src = spriteBoardUrl;
+	}
+
 	canvas.onclick = function (event) {
 		var rect = canvas.getBoundingClientRect(),
 			root = document.documentElement,
@@ -201,7 +222,7 @@
 	};
 
 	pm = new ParticlesManager(PARTICLES_NUMBER);
-	mainLoop();
+	loadResources(mainLoop);
 
 	window.addEventListener('resize', resizeCanvas, false);
 
