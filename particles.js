@@ -1,6 +1,7 @@
 (function () {
 	var canvas = document.getElementById('myCanvas'),
-		canvasContext = canvas.getContext('2d');
+		canvasContext = canvas.getContext('2d'),
+		pm;
 
 	function coordinatesInCanvas (coordinates) {
 		return coordinates.x + PARTICLE_RADIUS > 0 &&
@@ -14,6 +15,7 @@
 		ALIVE: 1
 	};
 	const PARTICLE_RADIUS = 5;
+	const PARTICLES_NUMBER = 1000;
 
 	function Particle (position, speed) {
 		this.maxLife = parseInt(Math.random() * 100);
@@ -51,12 +53,53 @@
 		canvasContext.fill();
 	};
 
+	function ParticlesManager (size) {
+		this.maxSize = size;
+		this.particlesCollection = Array(size);
+		this.nbParticles = 0;
+	}
+
+	ParticlesManager.prototype.addParticle = function (position, speed) {
+		if (this.nbParticles == this.maxSize) {
+			return;
+		}
+
+		this.particlesCollection[this.nbParticles] = new Particle(
+			position, speed
+		);
+		this.nbParticles++;
+	};
+
+	ParticlesManager.prototype.updateAndDrawParticles = function () {
+		var that = this;
+		function swapParticles (i, j) {
+			var tmp = that.particlesCollection[i];
+			that.particlesCollection[i] = that.particlesCollection[j];
+			that.particlesCollection[j] = tmp;
+		}
+
+		var i = 0;
+		while (i < this.nbParticles) {
+			this.particlesCollection[i].update();
+
+			if (this.particlesCollection[i].state == PARTICLE_STATES.DEAD) {
+				this.nbParticles--;
+				swapParticles(i, this.nbParticles);
+			}
+			else {
+				this.particlesCollection[i].draw();
+				i++;
+			}
+		}
+	};
+
 	function refreshScreen () {
 		canvasContext.fillStyle = '#ffffff';
 		canvasContext.fillRect(0, 0, canvas.width, canvas.height);
 	}
 
 	function updateAndDrawParticles () {
+		pm.updateAndDrawParticles();
 	}
 
 	function mainLoop () {
@@ -65,5 +108,6 @@
 		updateAndDrawParticles();
 	}
 
+	pm = new ParticlesManager(PARTICLES_NUMBER);
 	mainLoop();
 })();
