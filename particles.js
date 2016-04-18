@@ -134,12 +134,22 @@
 	};
 
 	ParticleCanon.prototype.fire = function () {
-		// @TODO determine start position and speed according to canon angle
-		var particlePosition = {
-			x: this.position.x,
-			y: this.position.y
-		};
-		pm.addParticle(particlePosition, {x: 1.5, y: 3});
+		// the particle leaves at 35px from the center of the canon
+		var distanceFromCanonCenter = 35,
+			particleSpeed = 5,
+			cosAngle = Math.cos(this.angle),
+			sinAngle = Math.sin(this.angle),
+			particlePosition = {
+				x: this.position.x + distanceFromCanonCenter * cosAngle,
+				// y goes towards the bottom of the screen
+				y: this.position.y - distanceFromCanonCenter * sinAngle
+			},
+			particleSpeedVector = {
+				x: particleSpeed * cosAngle,
+				y: -particleSpeed * sinAngle
+			};
+
+		pm.addParticle(particlePosition, particleSpeedVector);
 		this.reloadingTime = 5;
 	}
 
