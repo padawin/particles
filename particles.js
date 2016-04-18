@@ -34,4 +34,20 @@
 		canvasContext.arc(this.position.x, this.position.y, PARTICLE_RADIUS, 0, 2 * Math.PI, true);
 		canvasContext.fill();
 	};
+
+	function refreshScreen () {
+		canvasContext.fillStyle = '#ffffff';
+		canvasContext.fillRect(0, 0, canvas.width, canvas.height);
+	}
+
+	function updateAndDrawParticles () {
+	}
+
+	function mainLoop () {
+		requestAnimationFrame(mainLoop);
+		refreshScreen();
+		updateAndDrawParticles();
+	}
+
+	mainLoop();
 })();
