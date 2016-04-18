@@ -93,6 +93,36 @@
 		}
 	};
 
+	function ParticleCanon (position, angle) {
+		this.position = position;
+		this.angle = angle;
+		this.minAngle = angle - Math.PI / 4;
+		this.maxAngle = angle + Math.PI / 4;
+		this.angularSpeed = Math.PI / 100;
+	}
+
+	ParticleCanon.prototype.update = function () {
+		this.angle = this.angle + this.angularSpeed;
+
+		if (this.angle < this.minAngle || this.angle > this.maxAngle) {
+			this.angularSpeed *= -1;
+		}
+	};
+
+	ParticleCanon.prototype.draw = function () {
+		canvasContext.fillStyle = 'red';
+		canvasContext.fillRect(
+			this.position.x - 15,
+			this.position.y - 12,
+			30, 24
+		);
+		canvasContext.fillRect(
+			this.position.x + 15,
+			this.position.y - 9,
+			25, 18
+		);
+	};
+
 	function refreshScreen () {
 		canvasContext.fillStyle = '#ffffff';
 		canvasContext.fillRect(0, 0, canvas.width, canvas.height);
