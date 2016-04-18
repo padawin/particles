@@ -110,17 +110,13 @@
 	};
 
 	ParticleCanon.prototype.draw = function () {
+		canvasContext.save();
+		canvasContext.translate(this.position.x, this.position.y);
+		canvasContext.rotate(-this.angle);
 		canvasContext.fillStyle = 'red';
-		canvasContext.fillRect(
-			this.position.x - 15,
-			this.position.y - 12,
-			30, 24
-		);
-		canvasContext.fillRect(
-			this.position.x + 15,
-			this.position.y - 9,
-			25, 18
-		);
+		canvasContext.fillRect(-15, -12, 30, 24);
+		canvasContext.fillRect(15, -9, 25, 18);
+		canvasContext.restore();
 	};
 
 	function refreshScreen () {
