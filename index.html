@@ -5,12 +5,21 @@
 				margin: 0;
 				padding: 0;
 			}
+
+			#controls {
+				position: absolute;
+				top: 0px;
+				right: 0px;
+				padding: 10px;
+			}
 		</style>
 	</head>
 	<body>
-		<canvas width="500px" height="500px" id="myCanvas"></canvas>
-		<button id="fire-canons">Fire canons!</button>
-		<button id="stop-fire-canons">Stop fire canons!</button>
+		<canvas id="myCanvas"></canvas>
+		<div id="controls">
+			<button id="fire-canons">Fire canons!</button>
+			<button id="stop-fire-canons">Stop fire canons!</button>
+		</div>
 		<script type="text/javascript" src="particles.js"></script>
 	</body>
 </html>

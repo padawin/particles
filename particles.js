@@ -189,4 +189,12 @@
 
 	pm = new ParticlesManager(PARTICLES_NUMBER);
 	mainLoop();
+
+	window.addEventListener('resize', resizeCanvas, false);
+
+	function resizeCanvas() {
+		canvas.width = window.innerWidth;
+		canvas.height = window.innerHeight;
+	}
+	resizeCanvas();
 })();
