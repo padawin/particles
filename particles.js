@@ -15,12 +15,17 @@
 	};
 	const PARTICLE_RADIUS = 5;
 
-	function Particle (position, speed, maxLife) {
-		this.life = maxLife;
-		this.maxLife = maxLife;
+	function Particle (position, speed) {
+		this.maxLife = parseInt(Math.random() * 100);
+		this.life = this.maxLife;
 		this.position = position;
 		this.speed = speed;
 		this.state = PARTICLE_STATES.ALIVE;
+		this.color = [
+			parseInt(Math.random() * 255),
+			parseInt(Math.random() * 255),
+			parseInt(Math.random() * 255)
+		];
 	}
 
 	Particle.prototype.update = function () {
@@ -40,7 +45,7 @@
 
 	Particle.prototype.draw = function () {
 		var opacity = this.life / this.maxLife;
-		canvasContext.fillStyle = 'rgba(123, 43, 109, ' + opacity + ')';
+		canvasContext.fillStyle = 'rgba(' + this.color.join(', ') + ', ' + opacity + ')';
 		canvasContext.beginPath();
 		canvasContext.arc(this.position.x, this.position.y, PARTICLE_RADIUS, 0, 2 * Math.PI, true);
 		canvasContext.fill();
