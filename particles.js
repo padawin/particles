@@ -1,7 +1,8 @@
 (function () {
 	var canvas = document.getElementById('myCanvas'),
 		canvasContext = canvas.getContext('2d'),
-		pm;
+		pm,
+		canons = [];
 
 	function coordinatesInCanvas (coordinates) {
 		return coordinates.x + PARTICLE_RADIUS > 0 &&
@@ -128,10 +129,18 @@
 		pm.updateAndDrawParticles();
 	}
 
+	function updateAndDrawCanons () {
+		for (var c = 0; c < canons.length; c++) {
+			canons[c].update();
+			canons[c].draw();
+		}
+	}
+
 	function mainLoop () {
 		requestAnimationFrame(mainLoop);
 		refreshScreen();
 		updateAndDrawParticles();
+		updateAndDrawCanons();
 	}
 
 	pm = new ParticlesManager(PARTICLES_NUMBER);
