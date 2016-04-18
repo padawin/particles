@@ -172,7 +172,10 @@
 			mouseX = event.clientX - rect.left - root.scrollLeft,
 			mouseY = event.clientY - rect.top - root.scrollTop;
 
-		canons.push(new ParticleCanon({x:mouseX, y: mouseY}, Math.PI / 3));
+		canons.push(new ParticleCanon(
+			{x:mouseX, y: mouseY},
+			Math.random() * 2 * Math.PI
+		));
 	};
 
 	document.getElementById('fire-canons').onclick = function () {
