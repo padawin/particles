@@ -100,6 +100,8 @@
 		this.minAngle = angle - Math.PI / 4;
 		this.maxAngle = angle + Math.PI / 4;
 		this.angularSpeed = Math.PI / 100;
+		this.isFiring = false;
+		this.reloadingTime = 0;
 	}
 
 	ParticleCanon.prototype.update = function () {
@@ -107,6 +109,13 @@
 
 		if (this.angle < this.minAngle || this.angle > this.maxAngle) {
 			this.angularSpeed *= -1;
+		}
+
+		if (this.reloadingTime > 0) {
+			this.reloadingTime--;
+		}
+		else if (this.isFiring && !this.reloadingTime) {
+			this.fire();
 		}
 	};
 
@@ -119,6 +128,20 @@
 		canvasContext.fillRect(15, -9, 25, 18);
 		canvasContext.restore();
 	};
+
+	ParticleCanon.prototype.setFire = function (isFiring) {
+		this.isFiring = isFiring;
+	};
+
+	ParticleCanon.prototype.fire = function () {
+		// @TODO determine start position and speed according to canon angle
+		var particlePosition = {
+			x: this.position.x,
+			y: this.position.y
+		};
+		pm.addParticle(particlePosition, {x: 1.5, y: 3});
+		this.reloadingTime = 5;
+	}
 
 	function refreshScreen () {
 		canvasContext.fillStyle = '#ffffff';
