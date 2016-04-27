@@ -1,8 +1,8 @@
 # Particles
 
 Test project to implement a particle engine. When clicking on the
-screen, some canons are added. When clicking on the "Fire canons"
-button, the canon generate particles which are shot from them.
+screen, some cannons are added. When clicking on the "Fire cannons"
+button, the cannon generate particles which are shot from them.
 
 ![screenshot](screenshot.png "Particles")
 

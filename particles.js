@@ -2,7 +2,7 @@
 	var canvas = document.getElementById('myCanvas'),
 		canvasContext = canvas.getContext('2d'),
 		pm,
-		canons = [],
+		cannons = [],
 		spriteBoard,
 		spriteBoardUrl = 'sprite.png';
 
@@ -104,7 +104,7 @@
 		}
 	};
 
-	function ParticleCanon (position, angle) {
+	function ParticleCannon (position, angle) {
 		this.position = position;
 		this.angle = angle;
 		this.minAngle = angle - Math.PI / 4;
@@ -114,7 +114,7 @@
 		this.reloadingTime = 0;
 	}
 
-	ParticleCanon.prototype.update = function () {
+	ParticleCannon.prototype.update = function () {
 		this.angle = this.angle + this.angularSpeed;
 
 		if (this.angle < this.minAngle || this.angle > this.maxAngle) {
@@ -129,7 +129,7 @@
 		}
 	};
 
-	ParticleCanon.prototype.draw = function () {
+	ParticleCannon.prototype.draw = function () {
 		canvasContext.save();
 		canvasContext.translate(this.position.x, this.position.y);
 		canvasContext.rotate(-this.angle);
@@ -142,20 +142,20 @@
 		canvasContext.restore();
 	};
 
-	ParticleCanon.prototype.setFire = function (isFiring) {
+	ParticleCannon.prototype.setFire = function (isFiring) {
 		this.isFiring = isFiring;
 	};
 
-	ParticleCanon.prototype.fire = function () {
-		// the particle leaves at 35px from the center of the canon
-		var distanceFromCanonCenter = 35,
+	ParticleCannon.prototype.fire = function () {
+		// the particle leaves at 35px from the center of the cannon
+		var distanceFromCannonCenter = 35,
 			particleSpeed = 5,
 			cosAngle = Math.cos(this.angle),
 			sinAngle = Math.sin(this.angle),
 			particlePosition = {
-				x: this.position.x + distanceFromCanonCenter * cosAngle,
+				x: this.position.x + distanceFromCannonCenter * cosAngle,
 				// y goes towards the bottom of the screen
-				y: this.position.y - distanceFromCanonCenter * sinAngle
+				y: this.position.y - distanceFromCannonCenter * sinAngle
 			},
 			particleSpeedVector = {
 				x: particleSpeed * cosAngle,
@@ -175,10 +175,10 @@
 		pm.updateAndDrawParticles();
 	}
 
-	function updateAndDrawCanons () {
-		for (var c = 0; c < canons.length; c++) {
-			canons[c].update();
-			canons[c].draw();
+	function updateAndDrawCannons () {
+		for (var c = 0; c < cannons.length; c++) {
+			cannons[c].update();
+			cannons[c].draw();
 		}
 	}
 
@@ -186,7 +186,7 @@
 		requestAnimationFrame(mainLoop);
 		refreshScreen();
 		updateAndDrawParticles();
-		updateAndDrawCanons();
+		updateAndDrawCannons();
 	}
 
 	function loadResources (callback) {
@@ -203,21 +203,21 @@
 			mouseX = event.clientX - rect.left - root.scrollLeft,
 			mouseY = event.clientY - rect.top - root.scrollTop;
 
-		canons.push(new ParticleCanon(
+		cannons.push(new ParticleCannon(
 			{x:mouseX, y: mouseY},
 			Math.random() * 2 * Math.PI
 		));
 	};
 
-	document.getElementById('fire-canons').onclick = function () {
-		for(var c in canons) {
-			canons[c].setFire(true);
+	document.getElementById('fire-cannons').onclick = function () {
+		for(var c in cannons) {
+			cannons[c].setFire(true);
 		}
 	};
 
-	document.getElementById('stop-fire-canons').onclick = function () {
-		for(var c in canons) {
-			canons[c].setFire(false);
+	document.getElementById('stop-fire-cannons').onclick = function () {
+		for(var c in cannons) {
+			cannons[c].setFire(false);
 		}
 	};
 
